@@ -147,7 +147,7 @@ for index, row in btc_df_sample.iterrows():
 
     file_name = os.path.join(
         os.getcwd(), 
-        ticker + ' ' + row['date'].strftime("%Y-%m-%d") + '.png'
+        ticker + '_' + row['date'].strftime("%Y-%m-%d") + '.png'
         )
 
     # save image

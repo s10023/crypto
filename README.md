@@ -47,3 +47,6 @@ Command: `python binance_api.py`
 
 5. Generate drawing manually based on candlestick data.
 
+## Sample Output
+
+![alt text](BTCBUSD_2023-02-08.png "Sample output")
