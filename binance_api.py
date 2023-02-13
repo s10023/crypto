@@ -93,14 +93,18 @@ def draw_frame(object, object_type, color):
 canvas_width = 2000
 canvas_height = 2000
 canvas = (canvas_width, canvas_height)
+
 # scale ration
 scale = 5
 thumb = canvas[0]/scale, canvas[1]/scale
 
 for index, row in btc_df_sample.iterrows():
 
+    color = ('green' if row['difference_pct'] > 0 else 'red')
+    rarity = color
+
     # init canvas
-    im = Image.new('RGBA', canvas, (255, 255, 255, 255))
+    im = Image.new('RGBA', canvas, 'white')
     draw = ImageDraw.Draw(im)
 
     width_mid = canvas_width / 2
@@ -112,8 +116,6 @@ for index, row in btc_df_sample.iterrows():
     candle_shadow_width = 1
     candle_shadow_height = canvas_height-candle_shadow_top-candle_shadow_top
     candle_shadow = (candle_shadow_width, candle_shadow_height, candle_shadow_left, candle_shadow_top)
-
-    color = ('green' if row['difference_pct'] > 0 else 'red')
 
     draw_frame(candle_shadow, 'shadow', color)
 
@@ -131,15 +133,22 @@ for index, row in btc_df_sample.iterrows():
 
     # open_str = "$" + row['open'] + " \n "
     open_str = "$" + str(row['open']) + " \n\n"
-    # change_str = "Change: " + row['difference_pct'].astype(str) + "% \n "
     change_str = "Change: " + str(round(row['difference_pct'], 2)) + "%"
     text = open_str + change_str
-    draw.text((width_mid+candle_body_width,height_mid-canvas_height/10), text, font=myFont, fill = color)
+    draw.text(
+        ( width_mid + candle_body_width , height_mid - canvas_height / 10 ), 
+        text, 
+        font=myFont, 
+        fill = color
+        )
 
     # make thumbnail
     im.thumbnail(thumb)
 
-    file_name = 'C:/Users/User/repo/crpyto/' + ticker + ' ' + row['date'].strftime("%Y-%m-%d") + '.png'
+    file_name = os.path.join(
+        os.getcwd(), 
+        ticker + ' ' + row['date'].strftime("%Y-%m-%d") + '.png'
+        )
 
     # save image
     im.save(file_name)
@@ -148,6 +157,6 @@ for index, row in btc_df_sample.iterrows():
     im = Image.open(file_name)
 
     # Add border and save
-    bordered = ImageOps.expand(im, border=10, fill=color)
+    bordered = ImageOps.expand(im, border=10, fill=rarity)
 
     bordered.save(file_name)

@@ -11,6 +11,7 @@ Command: `python binance_api.py`
     <li>Ticker: BTCBUSD</li>
     <li>Timeframe: 1D</li>
     <li>Date: 2023-02-08</li>
+    <li>Image Size: 2000px x 2000px</li>
 </ol>
 
 ## Prerequisites
